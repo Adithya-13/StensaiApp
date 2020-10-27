@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "590585400109",
+    "firebase_url": "https://stensai-apps.firebaseio.com",
+    "project_id": "stensai-apps",
+    "storage_bucket": "stensai-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590585400109:android:fb516fb6a58b9593b0e1a4",
+        "android_client_info": {
+          "package_name": "com.extcode.project.stensaiapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590585400109-chat810qlrfh6su5ve594t3sfmt9kje1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8-YXSZVdKXwleD5TDPZNdN7vRLiJRFZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590585400109-chat810qlrfh6su5ve594t3sfmt9kje1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

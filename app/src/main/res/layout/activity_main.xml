@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".screens.activity.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/frameContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/toolbar_background"
+            app:menu="@menu/top_app_bar"
+            app:title="@string/titleAppBar"
+            app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:background="@drawable/reverse_shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:background="@drawable/shadow"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.gauravk.bubblenavigation.BubbleNavigationConstraintView
+        android:id="@+id/bottomNavigationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="8dp"
+        app:bnc_mode="spread"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frameContainer">
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/btHome"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:bt_active="false"
+            app:bt_colorActive="@color/white"
+            app:bt_colorInactive="@color/blueDark"
+            app:bt_icon="@drawable/ic_home"
+            app:bt_shape="@drawable/bubble_navigation_bg"
+            app:bt_title="Dasbor"
+            app:layout_constraintEnd_toStartOf="@+id/btTask"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottomNavigationContainer" />
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/btTask"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:bt_active="false"
+            app:bt_colorActive="@color/white"
+            app:bt_colorInactive="@color/blueDark"
+            app:bt_icon="@drawable/ic_task"
+            app:bt_shape="@drawable/bubble_navigation_bg"
+            app:bt_title="Tugas"
+            app:layout_constraintEnd_toStartOf="@+id/btMagazine"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btHome"
+            app:layout_constraintTop_toTopOf="@id/bottomNavigationContainer" />
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/btMagazine"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:bt_active="false"
+            app:bt_colorActive="@color/white"
+            app:bt_colorInactive="@color/blueDark"
+            app:bt_icon="@drawable/ic_magazine"
+            app:bt_shape="@drawable/bubble_navigation_bg"
+            app:bt_title="Mading"
+            app:layout_constraintEnd_toStartOf="@+id/btBook"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btTask"
+            app:layout_constraintTop_toTopOf="@id/bottomNavigationContainer" />
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/btBook"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:bt_active="false"
+            app:bt_colorActive="@color/white"
+            app:bt_colorInactive="@color/blueDark"
+            app:bt_icon="@drawable/ic_peran"
+            app:bt_shape="@drawable/bubble_navigation_bg"
+            app:bt_title="Peran"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btMagazine"
+            app:layout_constraintTop_toTopOf="@id/bottomNavigationContainer" />
+
+    </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
+
+
+    <View
+        android:id="@+id/loadingBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/loading_background"
+        android:translationZ="10dp"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:translationZ="11dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

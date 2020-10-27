@@ -1,0 +1,51 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/bold_source_sans_pro</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="SplashScreen" parent="AppTheme">
+        <item name="android:background">@drawable/activity_splash_screen</item>
+    </style>
+
+    <style name="textField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="android:textColor">@color/blueDark</item>
+        <item name="android:textColorHint">@color/blueDark</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxStrokeWidth">3dp</item>
+        <item name="boxStrokeWidthFocused">5dp</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="boxBackgroundColor">@color/textFieldColor</item>
+    </style>
+
+
+    <style name="dropDown" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+        <item name="android:textColor">@color/blueDark</item>
+        <item name="android:textColorHint">@color/blueDark</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxStrokeWidth">3dp</item>
+        <item name="boxStrokeWidthFocused">5dp</item>
+        <item name="endIconMode">dropdown_menu</item>
+        <item name="boxBackgroundColor">@color/textFieldColor</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/bold_source_sans_pro</item>
+    </style>
+
+    <style name="Dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+</resources>
