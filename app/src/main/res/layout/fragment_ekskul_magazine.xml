@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".screens.fragments.tasktabs.FinishedFragment">
-
+    tools:context=".screens.fragments.magazinetabs.EkskulMagazineFragment">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
@@ -18,7 +17,6 @@
         android:orientation="vertical"
         shimmer:duration="800">
 
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -28,40 +26,47 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <include layout="@layout/task_placeholder_layout" />
+                <include layout="@layout/data_placeholder_layout" />
 
-                <include layout="@layout/task_placeholder_layout" />
+                <include layout="@layout/data_placeholder_layout" />
 
-                <include layout="@layout/task_placeholder_layout" />
+                <include layout="@layout/data_placeholder_layout" />
 
-                <include layout="@layout/task_placeholder_layout" />
+                <include layout="@layout/data_placeholder_layout" />
 
-                <include layout="@layout/task_placeholder_layout" />
+                <include layout="@layout/data_placeholder_layout" />
 
-                <include layout="@layout/task_placeholder_layout" />
+                <include layout="@layout/data_placeholder_layout" />
 
-                <include layout="@layout/task_placeholder_layout" />
-
+                <include layout="@layout/data_placeholder_layout" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFinished"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeMagazine"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/task_fragment_list_item" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvEkskulMagazineFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/magazine_list_item" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/notFound"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,5 +74,6 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/lottie_not_found" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

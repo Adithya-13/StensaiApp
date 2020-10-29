@@ -15,6 +15,9 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", 'BASE_URL', '\"http://stensai-apps.com/api/\"'
+        buildConfigField "String", 'TOKEN', '\"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiY2FlYWE0OTM0OGQ4YjVhNmFmNjlkZGU2ZDJiNzg5NzIxMTE3MjBlZjRmNDYwOGE3ODkyMTJjY2IyOTE4ZTgyZTU5Mzk0YThmODMzYWRlYTAiLCJpYXQiOjE2MDM5MTY5MjcsIm5iZiI6MTYwMzkxNjkyNywiZXhwIjoxNjM1NDUyOTI3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.B4680omDyp-l28JRxvq8koAr5UUbIGKQASE2dOik5-hfGPQGxmMkcBLuhApvwzUXn-6kPD8pPpUWIAIsm4BlLpZvR9NrrPSkCXGHxqeqczeuj524hOvBTqC6P-d19dMp5qQed7K-Hhh9k-tmjS2cly2Eq4RziJGe4Dcy6UX_QGyBUglM-RMJYqxE612ZSh9J0Lxc0KBHRKV4z4U8sw6tSPy_aljX6QeLigJ0rGFabUV-4-GdAs0d3voyzK6xya6nFRjtlBJcxkR8_fviDT0pZc2KYzxRRMGcYMGqCLlR0TkPVjR8BPFnSAF_AuV_-TuZqi-PO4uHjaNFW36dfqpLMzkgGO2srgI3MiMkhisBtwTIojB_yJOkGaJ4qcLlz5uFa0LaWF9zYJYqSssX2vTQEIxyNmrCiu1A8k_OuPFlZSot7J6QGmRb3u-IJxlYTR2yZgBix5ITNLhTOzLQ8VRyjf8T2A2DVQmKG8l0-H-JF-bzYm0lzpZdO1xfTlC6nvsGQ89zWkUa-iIeBONh4Ace7L3C9F-vEKKonZAjOm0Dlroy3V13VnbCd_OvbNB4JOE0zXS2pnINYY0ukBA1WK3KBtsfsXxvcd3gtGym8KRM7MtC4GaD0YgdwdT6pFdTQJKmbNq-ri_FUOTbw6z-KyejJcqFMgauldK-FHhjNjqnyfI\"'
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -83,4 +86,15 @@ dependencies {
     implementation "com.xwray:groupie:$groupie_version"
     implementation "com.xwray:groupie-kotlin-android-extensions:$groupie_version"
 
+    //Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    //pinch to zoom
+    implementation 'com.github.okaybroda:ImageZoom:1.1.0'
+
+    //Dexter
+    implementation 'com.karumi:dexter:6.2.1'
+
+    //SwipeRefresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }

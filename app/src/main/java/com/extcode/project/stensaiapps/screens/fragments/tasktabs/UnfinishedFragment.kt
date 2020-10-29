@@ -48,18 +48,18 @@ class UnfinishedFragment : Fragment() {
     }
 
     private fun queryAll(taskViewModel: TaskViewModel) {
-        showProgressBar(progressBar, true)
+        showShimmer(shimmer_view_container, true)
         showNotFound(notFound, false)
 
         taskViewModel.queryAllUnfinishedTask(context as Context)
             .observe(viewLifecycleOwner, Observer {
                 if (it.isNullOrEmpty()) {
-                    showProgressBar(progressBar, false)
+                    showShimmer(shimmer_view_container, false)
                     showNotFound(notFound, true)
                     return@Observer
                 }
 
-                showProgressBar(progressBar, false)
+                showShimmer(shimmer_view_container, false)
                 showNotFound(notFound, false)
                 unfinishedAdapter.unfinishedList = it as ArrayList<UnfinishedData>
                 unfinishedAdapter.notifyDataSetChanged()

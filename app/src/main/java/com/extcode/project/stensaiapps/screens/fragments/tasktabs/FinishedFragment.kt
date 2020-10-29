@@ -41,21 +41,22 @@ class FinishedFragment : Fragment() {
     }
 
     private fun queryAll(taskViewModel: TaskViewModel) {
-        showProgressBar(progressBar, true)
+        showShimmer(shimmer_view_container, true)
         showNotFound(notFound, false)
 
-        taskViewModel.queryAllFinishedTask(context as Context).observe(viewLifecycleOwner, Observer {
-            if (it.isNullOrEmpty()) {
-                showProgressBar(progressBar, false)
-                showNotFound(notFound, true)
-                return@Observer
-            }
+        taskViewModel.queryAllFinishedTask(context as Context)
+            .observe(viewLifecycleOwner, Observer {
+                if (it.isNullOrEmpty()) {
+                    showShimmer(shimmer_view_container, false)
+                    showNotFound(notFound, true)
+                    return@Observer
+                }
 
-            showProgressBar(progressBar, false)
-            showNotFound(notFound, false)
-            finishedAdapter.finishedList = it as ArrayList<FinishedData>
-            finishedAdapter.notifyDataSetChanged()
-        })
+                showShimmer(shimmer_view_container, false)
+                showNotFound(notFound, false)
+                finishedAdapter.finishedList = it as ArrayList<FinishedData>
+                finishedAdapter.notifyDataSetChanged()
+            })
     }
 
     private fun configFinishedRecyclerView() {

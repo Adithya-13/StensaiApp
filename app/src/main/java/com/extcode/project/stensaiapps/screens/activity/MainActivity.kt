@@ -28,6 +28,9 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var name: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         getNameFromDatabase(userName, idStatus)
 
         val nameUser = userName.split(" ").toTypedArray()
-        val name = if (idStatus == 0) "${nameUser[0]} - $userClass" else nameUser[0]
+        name = if (idStatus == 0) "${nameUser[0]} - $userClass" else nameUser[0]
 
         navigationChange(DashboardFragment(), name)
 
@@ -157,6 +160,7 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.frameContainer, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .addToBackStack(null)
             .commit()
 
         topAppBar.title = title

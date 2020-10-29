@@ -3,6 +3,7 @@ package com.extcode.project.stensaiapps.other
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.View
+import com.facebook.shimmer.ShimmerFrameLayout
 
 
 const val kUserName = "userName"
@@ -19,9 +20,15 @@ const val kTimeFormat = "HH:mm"
 const val kId = "id"
 const val kIdStatus = "idStatus"
 const val kUserData = "userData"
+const val kDetailMagazine = "detailMagazine"
 
 fun showProgressBar(view: View, isShow: Boolean) {
     view.visibility = if (isShow) View.VISIBLE else View.GONE
+}
+
+fun showShimmer(shimmer: ShimmerFrameLayout, isShow: Boolean) {
+    if (isShow) shimmer.startShimmer() else shimmer.stopShimmer()
+    shimmer.visibility = if (isShow) View.VISIBLE else View.GONE
 }
 
 fun showNotFound(view: View, isShow: Boolean) {

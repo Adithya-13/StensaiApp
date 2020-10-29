@@ -10,4 +10,5 @@
     <color name="textFieldColor">#C4D9FF</color>
     <color name="blackBlue">#0E2431</color>
     <color name="white">#FFFFFF</color>
+    <color name="shimmer">#98BDFF</color>
 </resources>

@@ -15,10 +15,7 @@ import com.extcode.project.stensaiapps.other.kUserData
 import com.extcode.project.stensaiapps.other.showNotFound
 import com.extcode.project.stensaiapps.other.showProgressBar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_latest_messages.*
@@ -36,10 +33,15 @@ class LatestMessagesActivity : AppCompatActivity(), View.OnClickListener {
         showProgressBar(progressBar, true)
         showNotFound(notFound, false)
 
+        fabNewMessage.setOnClickListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         listenForLatestMessages()
         configLatestMessageRecyclerView()
 
-        fabNewMessage.setOnClickListener(this)
     }
 
     private fun configLatestMessageRecyclerView() {
@@ -83,7 +85,7 @@ class LatestMessagesActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    val latestMessageMap = HashMap<String, ChatMessage>()
+    private val latestMessageMap = HashMap<String, ChatMessage>()
 
     private fun refreshRV() {
         adapter.clear()
@@ -96,47 +98,72 @@ class LatestMessagesActivity : AppCompatActivity(), View.OnClickListener {
 
         val fromId = FirebaseAuth.getInstance().uid
 
-        val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
-            .orderByChild("/timeStamp")
-        ref.addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                if (!snapshot.exists()) {
-                    showProgressBar(progressBar, false)
-                    showNotFound(notFound, true)
-                    return
+
+        val refLatestMessage = FirebaseDatabase.getInstance().getReference("/latest-messages")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!snapshot.exists() || snapshot.value == null) {
+                        showProgressBar(progressBar, false)
+                        showNotFound(notFound, true)
+                        return
+                    }
+
+                    val ref =
+                        FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
+                            .orderByChild("/timeStamp")
+                    ref.addChildEventListener(object : ChildEventListener {
+                        override fun onChildAdded(
+                            snapshot: DataSnapshot,
+                            previousChildName: String?
+                        ) {
+                            if (!snapshot.exists()) {
+                                showProgressBar(progressBar, false)
+                                showNotFound(notFound, true)
+                                return
+                            }
+                            showProgressBar(progressBar, false)
+                            showNotFound(notFound, false)
+                            val chatMessage = snapshot.getValue(ChatMessage::class.java) ?: return
+                            latestMessageMap[snapshot.key!!] = chatMessage
+                            refreshRV()
+                        }
+
+                        override fun onChildChanged(
+                            snapshot: DataSnapshot,
+                            previousChildName: String?
+                        ) {
+                            val chatMessage = snapshot.getValue(ChatMessage::class.java) ?: return
+                            latestMessageMap[snapshot.key!!] = chatMessage
+                            refreshRV()
+                        }
+
+                        override fun onChildRemoved(snapshot: DataSnapshot) {
+                            if (!snapshot.exists()) {
+                                showProgressBar(progressBar, false)
+                                showNotFound(notFound, true)
+                                return
+                            }
+                        }
+
+                        override fun onChildMoved(
+                            snapshot: DataSnapshot,
+                            previousChildName: String?
+                        ) {
+
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            showProgressBar(progressBar, false)
+                            showNotFound(notFound, true)
+                            return
+                        }
+                    })
                 }
-                showProgressBar(progressBar, false)
-                showNotFound(notFound, false)
-                val chatMessage = snapshot.getValue(ChatMessage::class.java) ?: return
-                latestMessageMap[snapshot.key!!] = chatMessage
-                refreshRV()
-            }
 
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                val chatMessage = snapshot.getValue(ChatMessage::class.java) ?: return
-                latestMessageMap[snapshot.key!!] = chatMessage
-                refreshRV()
-            }
+                override fun onCancelled(error: DatabaseError) {
 
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                if (!snapshot.exists()) {
-                    showProgressBar(progressBar, false)
-                    showNotFound(notFound, true)
-                    return
                 }
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                showProgressBar(progressBar, false)
-                showNotFound(notFound, true)
-                return
-            }
-        })
-
+            })
     }
 
     override fun onClick(v: View?) {

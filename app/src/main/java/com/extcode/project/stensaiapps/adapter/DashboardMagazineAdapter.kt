@@ -1,17 +1,20 @@
 package com.extcode.project.stensaiapps.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.extcode.project.stensaiapps.R
-import com.extcode.project.stensaiapps.model.MagazineModel
+import com.extcode.project.stensaiapps.model.api.MessageItem
+import com.extcode.project.stensaiapps.other.kDetailMagazine
+import com.extcode.project.stensaiapps.screens.activity.DetailMagazineActivity
 import kotlinx.android.synthetic.main.magazine_list_item.view.*
 
 class DashboardMagazineAdapter : RecyclerView.Adapter<DashboardMagazineAdapter.ViewHolder>() {
 
-    var magazinesList = ArrayList<MagazineModel>()
+    var magazinesList = ArrayList<MessageItem>()
         set(value) {
             this.magazinesList.clear()
             this.magazinesList.addAll(value)
@@ -31,15 +34,23 @@ class DashboardMagazineAdapter : RecyclerView.Adapter<DashboardMagazineAdapter.V
     override fun getItemCount(): Int = magazinesList.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(magazineModel: MagazineModel) {
+        fun bind(messageItem: MessageItem) {
             with(itemView) {
-                titleMagazine.text = context.getString(R.string.uploadedBy, magazineModel.title)
+                adminMagazine.text = context.getString(R.string.uploadedBy, "Admin")
+                titleMagazine.text = messageItem.judul
+
                 Glide.with(itemView.context)
-                    .load(magazineModel.avatar)
+                    .load(R.drawable.ic_profile_user)
                     .into(avatarMagazine)
                 Glide.with(itemView.context)
-                    .load(magazineModel.picture)
+                    .load("http://stensai-apps.com/img/thumbnail/${messageItem.thumbnail}")
                     .into(pictureMagazine)
+
+                setOnClickListener {
+                    context.startActivity(Intent(context, DetailMagazineActivity::class.java).apply {
+                        putExtra(kDetailMagazine, messageItem)
+                    })
+                }
             }
         }
     }

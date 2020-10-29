@@ -62,6 +62,18 @@ val statuses = listOf(
     "Guru"
 )
 
+val typeOfPengajuan = listOf(
+    "Fasilitas Umum",
+    "Fasilitas Jurusan",
+    "Fasilitas Perpustakaan"
+)
+
+
+val magazineCategory = listOf(
+    "Karya",
+    "Ekskul"
+)
+
 val classNameItems = listOf(
     "X-TGB-A",
     "X-TGB-B",
@@ -135,5 +147,4 @@ val classNameItems = listOf(
     "XII-TKJ-A",
     "XII-TKJ-B",
     "XII-TKJ-C"
-
 )

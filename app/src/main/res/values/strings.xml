@@ -2,7 +2,7 @@
     <string name="app_name">StensaiApp</string>
     <string name="titleAppBar">%1$s, %2$s</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="uploadedBy">Uploaded by %s</string>
+    <string name="uploadedBy">Di-upload oleh %s</string>
     <string name="proses">Proses</string>
     <string name="selesai">Selesai</string>
     <string name="date">Date</string>
@@ -14,4 +14,10 @@
     <string name="pengajuan">Pengajuan</string>
     <string name="saran">Saran</string>
     <string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean imperdiet tortor magna, quis vehicula eros dignissim ac. Ut auctor sit amet libero auctor mattis. Aliquam id dolor lacinia erat accumsan condimentum ac vel nunc. Sed consequat luctus augue, sed pulvinar eros egestas quis.</string>
+    <string name="authorBy">Karya dari %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="allMagazineName">Semua</string>
+    <string name="karyaMagazineName">Karya</string>
+    <string name="ekskulMagazineName">Ekskul</string>
 </resources>

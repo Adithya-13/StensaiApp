@@ -101,7 +101,6 @@ class DashboardFragment : Fragment() {
 
     private fun configMagazinesRecyclerView() {
         dashboardMagazineAdapter = DashboardMagazineAdapter()
-        dashboardMagazineAdapter.magazinesList = dummyMagazinesList
         dashboardMagazineAdapter.notifyDataSetChanged()
 
         rvMagazine.layoutManager =
