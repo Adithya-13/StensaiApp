@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
-        android:id="@+id/closeTask"
+        android:id="@+id/closeSetting"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="16dp"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="ADD TASK"
+        android:text="SETTING"
         android:textAlignment="center"
         android:textColor="@color/blueDark"
         android:textSize="25sp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/doneTask"
+        android:id="@+id/saveSetting"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginTop="16dp"

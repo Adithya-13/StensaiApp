@@ -8,6 +8,8 @@ import com.facebook.shimmer.ShimmerFrameLayout
 
 const val kUserName = "userName"
 const val kUserClass = "userClass"
+const val kUserNIS = "userNIS"
+const val kUserNIP = "userNIP"
 const val kIsEdit = "isEdit"
 const val kIsFinished = "isFinished"
 const val kUnfinishedData = "unfinishedData"

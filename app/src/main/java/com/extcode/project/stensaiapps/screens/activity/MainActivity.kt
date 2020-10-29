@@ -13,9 +13,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.extcode.project.stensaiapps.R
 import com.extcode.project.stensaiapps.model.StudentModel
 import com.extcode.project.stensaiapps.model.TeacherModel
-import com.extcode.project.stensaiapps.other.kIdStatus
-import com.extcode.project.stensaiapps.other.kUserClass
-import com.extcode.project.stensaiapps.other.kUserName
+import com.extcode.project.stensaiapps.other.*
 import com.extcode.project.stensaiapps.screens.fragments.DashboardFragment
 import com.extcode.project.stensaiapps.screens.fragments.MagazineFragment
 import com.extcode.project.stensaiapps.screens.fragments.PeranFragment
@@ -79,9 +77,12 @@ class MainActivity : AppCompatActivity() {
                         val user = snapshot.getValue(StudentModel::class.java)
                         getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).apply {
                             edit {
-                                putString(kUserName, user!!.username)
-                                putString(kUserClass, user.className)
-                                apply()
+                                if (user != null) {
+                                    putString(kUserName, user.username)
+                                    putLong(kUserNIS, user.nis!!)
+                                    putString(kUserClass, user.className)
+                                    apply()
+                                }
                             }
                         }
                         finish()
@@ -94,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                         getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).apply {
                             edit {
                                 putString(kUserName, user!!.username)
+                                putLong(kUserNIP, user.nip!!)
                                 apply()
                             }
                         }
@@ -124,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.setting -> {
-            FirebaseAuth.getInstance().signOut()
+           /* FirebaseAuth.getInstance().signOut()
             getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).apply {
                 edit {
                     clear()
@@ -132,7 +134,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             startActivity(Intent(this, SignInActivity::class.java))
-            finish()
+            finish()*/
+            startActivity(Intent(this, SettingActivity::class.java))
             true
         }
         R.id.chat -> {
@@ -160,7 +163,6 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.frameContainer, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .addToBackStack(null)
             .commit()
 
         topAppBar.title = title
