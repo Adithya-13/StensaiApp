@@ -24,6 +24,11 @@ class TaskViewModel : ViewModel() {
         return db.unfinishedTaskDao().deleteUnfinishedTask(id)
     }
 
+    fun deleteAllUnfinishedTask(context: Context): Int {
+        val db = TaskDatabase.getInstance(context)
+        return db.unfinishedTaskDao().deleteUnfinishedAll()
+    }
+
     fun queryAllFinishedTask(context: Context): LiveData<List<FinishedData>> {
         val db = TaskDatabase.getInstance(context)
         return db.finishedTaskDao().queryAllFinishedTask()
@@ -37,6 +42,11 @@ class TaskViewModel : ViewModel() {
     fun deleteFinishedTask(context: Context, id: Int): Int {
         val db = TaskDatabase.getInstance(context)
         return db.finishedTaskDao().deleteFinishedTask(id)
+    }
+
+    fun deleteAllFinishedTask(context: Context): Int {
+        val db = TaskDatabase.getInstance(context)
+        return db.finishedTaskDao().deleteFinishedAll()
     }
 
 }

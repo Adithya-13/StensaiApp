@@ -99,7 +99,7 @@ class LatestMessagesActivity : AppCompatActivity(), View.OnClickListener {
         val fromId = FirebaseAuth.getInstance().uid
 
 
-        val refLatestMessage = FirebaseDatabase.getInstance().getReference("/latest-messages")
+        FirebaseDatabase.getInstance().getReference("/latest-messages")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (!snapshot.exists() || snapshot.value == null) {

@@ -22,4 +22,7 @@ interface FinishedTaskDao {
     @Query("DELETE FROM $FINISHED_TABLE_NAME WHERE $FINISHED_ID = :id")
     fun deleteFinishedTask(id: Int): Int
 
+    @Query("DELETE FROM $FINISHED_TABLE_NAME")
+    fun deleteFinishedAll(): Int
+
 }

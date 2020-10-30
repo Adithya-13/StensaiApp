@@ -170,7 +170,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
                 toastCustom("Create Account Successful")
-                saveUserToRealtimeDatabase(username, nisOrNip, className, status)
+                saveUserToRealtimeDatabase(username, nisOrNip, className, status, email)
             }.addOnFailureListener {
                 isLoading(false)
                 toastCustom("Create Account Failure, $it")
@@ -194,7 +194,8 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         username: String,
         nisOrNip: Long,
         className: String,
-        status: Int
+        status: Int,
+        email: String
     ) {
         val user = if (isStudent) "students" else "teachers"
         val uid = FirebaseAuth.getInstance().uid
@@ -205,11 +206,13 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             if (isStudent) StudentModel(
                 uid,
                 username,
+                email,
                 nisOrNip,
                 className,
                 status
             ) else TeacherModel(
                 uid,
+                email,
                 username,
                 nisOrNip,
                 status

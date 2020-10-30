@@ -21,4 +21,6 @@ interface UnfinishedTaskDao {
     @Query("DELETE FROM $UNFINISHED_TABLE_NAME WHERE id = :id")
     fun deleteUnfinishedTask(id: Int): Int
 
+    @Query("DELETE FROM $UNFINISHED_TABLE_NAME")
+    fun deleteUnfinishedAll(): Int
 }

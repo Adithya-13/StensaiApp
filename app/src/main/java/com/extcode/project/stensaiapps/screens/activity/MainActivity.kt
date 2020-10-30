@@ -2,6 +2,7 @@ package com.extcode.project.stensaiapps.screens.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             idStatus = getInt(kIdStatus, 0)
             userName = getString(kUserName, "").toString()
             userClass = getString(kUserClass, "").toString()
+            Log.d("njay", userName)
         }
 
         getNameFromDatabase(userName, idStatus)
@@ -81,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                                     putString(kUserName, user.username)
                                     putLong(kUserNIS, user.nis!!)
                                     putString(kUserClass, user.className)
+                                    putString(kUserEmail, user.email)
                                     apply()
                                 }
                             }
@@ -96,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                             edit {
                                 putString(kUserName, user!!.username)
                                 putLong(kUserNIP, user.nip!!)
+                                putString(kUserEmail, user.email)
                                 apply()
                             }
                         }
@@ -126,15 +130,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.setting -> {
-           /* FirebaseAuth.getInstance().signOut()
-            getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).apply {
-                edit {
-                    clear()
-                    commit()
-                }
-            }
-            startActivity(Intent(this, SignInActivity::class.java))
-            finish()*/
             startActivity(Intent(this, SettingActivity::class.java))
             true
         }
