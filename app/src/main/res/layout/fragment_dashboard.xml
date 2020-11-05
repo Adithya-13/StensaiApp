@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -122,14 +123,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/bold_source_sans_pro"
-                android:text="Mading"
+                android:text="Kegiatan &amp; Informasi"
                 android:textColor="@color/blueDark"
                 android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/notFound" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMagazine"
+                android:id="@+id/rvEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -138,7 +139,30 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/magazineTitle"
-                tools:listitem="@layout/magazine_list_item" />
+                tools:listitem="@layout/event_list_item" />
+
+            <ProgressBar
+                android:id="@+id/progressBarEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="96dp"
+                android:progressTint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/magazineTitle" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/notFoundEvent"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/magazineTitle"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:visibility="gone"
+                app:lottie_rawRes="@raw/lottie_not_found" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -147,12 +171,12 @@
         android:id="@+id/fabChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/blueDark"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/blueAccent"
         android:text="CHAT"
         android:textColor="@color/white"
         app:icon="@drawable/ic_chat_white"
         app:iconTint="@color/white"
-        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/scrollContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

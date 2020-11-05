@@ -6,8 +6,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.extcode.project.stensaiapps.R
-import com.extcode.project.stensaiapps.adapter.ChatLeftItem
-import com.extcode.project.stensaiapps.adapter.ChatRightItem
+import com.extcode.project.stensaiapps.adapter.chat.ChatLeftItem
+import com.extcode.project.stensaiapps.adapter.chat.ChatRightItem
 import com.extcode.project.stensaiapps.model.ChatMessage
 import com.extcode.project.stensaiapps.model.StudentModel
 import com.extcode.project.stensaiapps.model.TeacherModel

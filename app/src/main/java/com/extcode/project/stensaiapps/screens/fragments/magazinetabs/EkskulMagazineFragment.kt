@@ -10,14 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.extcode.project.stensaiapps.R
-import com.extcode.project.stensaiapps.adapter.DashboardMagazineAdapter
+import com.extcode.project.stensaiapps.adapter.MagazineAdapter
 import com.extcode.project.stensaiapps.model.api.MessageItem
 import com.extcode.project.stensaiapps.other.showNotFound
 import com.extcode.project.stensaiapps.other.showShimmer
 import com.extcode.project.stensaiapps.viewmodel.MagazineViewModel
-import kotlinx.android.synthetic.main.fragment_all_magazine.notFound
-import kotlinx.android.synthetic.main.fragment_all_magazine.shimmer_view_container
-import kotlinx.android.synthetic.main.fragment_all_magazine.swipeMagazine
 import kotlinx.android.synthetic.main.fragment_ekskul_magazine.*
 
 class EkskulMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -31,7 +28,7 @@ class EkskulMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener 
     }
 
 
-    private lateinit var dashboardMagazineAdapter: DashboardMagazineAdapter
+    private lateinit var magazineAdapter: MagazineAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,15 +51,10 @@ class EkskulMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener 
         magazineViewModel.getMagazines().observe(viewLifecycleOwner, Observer {
             showShimmer(shimmer_view_container, true)
             showNotFound(notFound, false)
-            swipeMagazine.isRefreshing = true
 
-            val message = it.message as ArrayList<MessageItem>
+            val message = it.message
 
-            if (message.isNotEmpty()) {
-
-                showShimmer(shimmer_view_container, false)
-                showNotFound(notFound, false)
-                swipeMagazine.isRefreshing = false
+            if (message != null && message.isNotEmpty()) {
 
                 val ekskulMessage = ArrayList<MessageItem>()
                 for (messageItem in message) {
@@ -70,9 +62,20 @@ class EkskulMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener 
                         ekskulMessage.add(messageItem)
                     }
                 }
+                if (ekskulMessage.isNotEmpty()) {
 
-                dashboardMagazineAdapter.magazinesList = ekskulMessage
-                dashboardMagazineAdapter.notifyDataSetChanged()
+                    showShimmer(shimmer_view_container, false)
+                    showNotFound(notFound, false)
+                    swipeMagazine.isRefreshing = false
+
+                    magazineAdapter.magazinesList = ekskulMessage
+                    magazineAdapter.notifyDataSetChanged()
+                } else {
+                    showShimmer(shimmer_view_container, false)
+                    showNotFound(notFound, true)
+                    swipeMagazine.isRefreshing = false
+                }
+
             } else {
                 showShimmer(shimmer_view_container, false)
                 showNotFound(notFound, true)
@@ -83,15 +86,15 @@ class EkskulMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener 
 
 
     private fun configMagazinesRecyclerView() {
-        dashboardMagazineAdapter = DashboardMagazineAdapter()
-        dashboardMagazineAdapter.notifyDataSetChanged()
+        magazineAdapter = MagazineAdapter()
+        magazineAdapter.notifyDataSetChanged()
 
         rvEkskulMagazineFragment.layoutManager =
             LinearLayoutManager(context).apply {
                 reverseLayout = true
                 stackFromEnd = true
             }
-        rvEkskulMagazineFragment.adapter = dashboardMagazineAdapter
+        rvEkskulMagazineFragment.adapter = magazineAdapter
 
     }
 

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.extcode.project.stensaiapps.R
-import com.extcode.project.stensaiapps.adapter.LatestMessageRow
+import com.extcode.project.stensaiapps.adapter.chat.LatestMessageRow
 import com.extcode.project.stensaiapps.model.ChatMessage
 import com.extcode.project.stensaiapps.other.kIdStatus
 import com.extcode.project.stensaiapps.other.kUserData

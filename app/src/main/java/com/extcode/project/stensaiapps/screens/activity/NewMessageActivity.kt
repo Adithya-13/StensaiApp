@@ -2,12 +2,11 @@ package com.extcode.project.stensaiapps.screens.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.extcode.project.stensaiapps.R
-import com.extcode.project.stensaiapps.adapter.StudentNewMessageAdapter
-import com.extcode.project.stensaiapps.adapter.TeacherNewMessageAdapter
+import com.extcode.project.stensaiapps.adapter.chat.StudentNewMessageAdapter
+import com.extcode.project.stensaiapps.adapter.chat.TeacherNewMessageAdapter
 import com.extcode.project.stensaiapps.model.StudentModel
 import com.extcode.project.stensaiapps.model.TeacherModel
 import com.extcode.project.stensaiapps.other.*

@@ -24,6 +24,7 @@ const val kId = "id"
 const val kIdStatus = "idStatus"
 const val kUserData = "userData"
 const val kDetailMagazine = "detailMagazine"
+const val kDetailEvent = "detailEvent"
 
 fun showProgressBar(view: View, isShow: Boolean) {
     view.visibility = if (isShow) View.VISIBLE else View.GONE

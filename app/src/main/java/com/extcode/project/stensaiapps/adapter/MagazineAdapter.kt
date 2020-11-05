@@ -12,7 +12,7 @@ import com.extcode.project.stensaiapps.other.kDetailMagazine
 import com.extcode.project.stensaiapps.screens.activity.DetailMagazineActivity
 import kotlinx.android.synthetic.main.magazine_list_item.view.*
 
-class DashboardMagazineAdapter : RecyclerView.Adapter<DashboardMagazineAdapter.ViewHolder>() {
+class MagazineAdapter : RecyclerView.Adapter<MagazineAdapter.ViewHolder>() {
 
     var magazinesList = ArrayList<MessageItem>()
         set(value) {
@@ -44,6 +44,7 @@ class DashboardMagazineAdapter : RecyclerView.Adapter<DashboardMagazineAdapter.V
                     .into(avatarMagazine)
                 Glide.with(itemView.context)
                     .load("http://stensai-apps.com/img/thumbnail/${messageItem.thumbnail}")
+                    .placeholder(R.drawable.ic_loading)
                     .into(pictureMagazine)
 
                 setOnClickListener {

@@ -1,4 +1,4 @@
-package com.extcode.project.stensaiapps.adapter
+package com.extcode.project.stensaiapps.adapter.chat
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

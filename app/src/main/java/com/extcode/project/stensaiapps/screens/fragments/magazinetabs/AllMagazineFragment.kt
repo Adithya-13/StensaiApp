@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.extcode.project.stensaiapps.R
-import com.extcode.project.stensaiapps.adapter.DashboardMagazineAdapter
+import com.extcode.project.stensaiapps.adapter.MagazineAdapter
 import com.extcode.project.stensaiapps.model.api.MessageItem
 import com.extcode.project.stensaiapps.other.showNotFound
 import com.extcode.project.stensaiapps.other.showShimmer
@@ -27,7 +27,7 @@ class AllMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         return inflater.inflate(R.layout.fragment_all_magazine, container, false)
     }
 
-    private lateinit var dashboardMagazineAdapter: DashboardMagazineAdapter
+    private lateinit var magazineAdapter: MagazineAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +50,6 @@ class AllMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         magazineViewModel.getMagazines().observe(viewLifecycleOwner, Observer {
             showShimmer(shimmer_view_container, true)
             showNotFound(notFound, false)
-            swipeMagazine.isRefreshing = true
 
             val message = it.message
             if (message != null && message.isNotEmpty()) {
@@ -59,8 +58,8 @@ class AllMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 showNotFound(notFound, false)
                 swipeMagazine.isRefreshing = false
 
-                dashboardMagazineAdapter.magazinesList = message as ArrayList<MessageItem>
-                dashboardMagazineAdapter.notifyDataSetChanged()
+                magazineAdapter.magazinesList = message as ArrayList<MessageItem>
+                magazineAdapter.notifyDataSetChanged()
             } else {
                 showShimmer(shimmer_view_container, false)
                 showNotFound(notFound, true)
@@ -71,15 +70,15 @@ class AllMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
     private fun configMagazinesRecyclerView() {
-        dashboardMagazineAdapter = DashboardMagazineAdapter()
-        dashboardMagazineAdapter.notifyDataSetChanged()
+        magazineAdapter = MagazineAdapter()
+        magazineAdapter.notifyDataSetChanged()
 
         rvAllMagazineFragment.layoutManager =
             LinearLayoutManager(context).apply {
                 reverseLayout = true
                 stackFromEnd = true
             }
-        rvAllMagazineFragment.adapter = dashboardMagazineAdapter
+        rvAllMagazineFragment.adapter = magazineAdapter
 
     }
 
