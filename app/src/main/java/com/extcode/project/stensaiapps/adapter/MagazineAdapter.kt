@@ -36,7 +36,7 @@ class MagazineAdapter : RecyclerView.Adapter<MagazineAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(messageItem: MessageItem) {
             with(itemView) {
-                adminMagazine.text = context.getString(R.string.uploadedBy, "Admin")
+                adminMagazine.text = context.getString(R.string.uploadedBy, messageItem.name)
                 titleMagazine.text = messageItem.judul
 
                 Glide.with(itemView.context)
@@ -48,9 +48,13 @@ class MagazineAdapter : RecyclerView.Adapter<MagazineAdapter.ViewHolder>() {
                     .into(pictureMagazine)
 
                 setOnClickListener {
-                    context.startActivity(Intent(context, DetailMagazineActivity::class.java).apply {
-                        putExtra(kDetailMagazine, messageItem)
-                    })
+                    context.startActivity(
+                        Intent(
+                            context,
+                            DetailMagazineActivity::class.java
+                        ).apply {
+                            putExtra(kDetailMagazine, messageItem)
+                        })
                 }
             }
         }

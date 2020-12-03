@@ -44,9 +44,13 @@ class DashboardEventAdapter : RecyclerView.Adapter<DashboardEventAdapter.ViewHol
                     .into(pictureEvent)
 
                 setOnClickListener {
-                    context.startActivity(Intent(context, DetailMagazineActivity::class.java).apply {
-                        putExtra(kDetailEvent, eventItem)
-                    })
+                    context.startActivity(
+                        Intent(
+                            context,
+                            DetailMagazineActivity::class.java
+                        ).apply {
+                            putExtra(kDetailEvent, eventItem)
+                        })
                 }
             }
         }

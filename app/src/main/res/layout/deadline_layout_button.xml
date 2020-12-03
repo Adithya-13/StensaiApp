@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@null"
-        android:hint="Judul Tugas"
+        android:hint="@string/judul_tugas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@null"
-        android:hint="Deskripsi Tugas"
+        android:hint="@string/deskripsi_tugas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/insertTitleTask">
@@ -42,17 +42,27 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/taskPriority"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/insertDescriptionTask" />
+
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/dlSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Waktu Tenggat"
+        android:text="@string/waktu_tenggat"
         android:textColor="@color/blueDark"
         app:layout_constraintBottom_toTopOf="@+id/saveTask"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insertDescriptionTask"
+        app:layout_constraintTop_toBottomOf="@+id/taskPriority"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -64,7 +74,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/deadline_ripple_button"
-        android:text="Tanggal"
+        android:text="@string/tanggal"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/saveTask"
         app:layout_constraintEnd_toStartOf="@id/dlTimeTask"
@@ -80,7 +90,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/deadline_ripple_button"
-        android:text="Waktu"
+        android:text="@string/waktu"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/saveTask"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/ripple_button"
-        android:text="Simpan"
+        android:text="@string/simpan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

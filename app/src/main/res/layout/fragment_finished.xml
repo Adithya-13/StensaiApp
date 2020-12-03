@@ -8,7 +8,6 @@
     android:background="@color/grey"
     tools:context=".screens.fragments.tasktabs.FinishedFragment">
 
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"
@@ -17,7 +16,6 @@
         android:layout_marginTop="15dp"
         android:orientation="vertical"
         shimmer:duration="800">
-
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

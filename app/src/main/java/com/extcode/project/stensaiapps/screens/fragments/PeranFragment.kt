@@ -23,6 +23,7 @@ class PeranFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configViewPager()
+
     }
 
     override fun onResume() {

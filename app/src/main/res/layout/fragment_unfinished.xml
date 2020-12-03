@@ -8,7 +8,6 @@
     android:background="@color/grey"
     tools:context=".screens.fragments.tasktabs.UnfinishedFragment">
 
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"

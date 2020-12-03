@@ -18,7 +18,7 @@ class MagazineViewModel : ViewModel() {
 
     private val magazineResponse = MutableLiveData<MagazineResponse>()
 
-    fun getMagazines(): LiveData<MagazineResponse> {
+    fun setMagazines() {
         viewModelScope.launch(Dispatchers.IO) {
             NetworkProvider.providesHttpAdapter().create(DataSource::class.java).apply {
                 magazine().enqueue(object : Callback<MagazineResponse> {
@@ -36,6 +36,9 @@ class MagazineViewModel : ViewModel() {
                 })
             }
         }
+    }
+
+    fun getMagazines(): LiveData<MagazineResponse> {
         return magazineResponse
     }
 }

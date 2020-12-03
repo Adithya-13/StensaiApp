@@ -10,6 +10,7 @@ import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.
 import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.FINISHED_TABLE_NAME
 import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.FINISHED_TIME
 import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.FINISHED_TITLE
+import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.FINISHED_URGENCY
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -21,6 +22,7 @@ data class FinishedData(
     @ColumnInfo(name = FINISHED_TITLE) var title: String?,
     @ColumnInfo(name = FINISHED_DESCRIPTION) var description: String?,
     @ColumnInfo(name = FINISHED_DATE) var date: String?,
-    @ColumnInfo(name = FINISHED_TIME) var time: String?
+    @ColumnInfo(name = FINISHED_TIME) var time: String?,
+    @ColumnInfo(name = FINISHED_URGENCY) var priority: Int = 0
 
 ) : Parcelable

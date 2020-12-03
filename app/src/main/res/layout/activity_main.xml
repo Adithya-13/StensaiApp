@@ -91,7 +91,7 @@
             app:bt_colorInactive="@color/blueDark"
             app:bt_icon="@drawable/ic_task"
             app:bt_shape="@drawable/bubble_navigation_bg"
-            app:bt_title="Tugas"
+            app:bt_title="Ransel"
             app:layout_constraintEnd_toStartOf="@+id/btMagazine"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btHome"
@@ -106,7 +106,7 @@
             app:bt_colorInactive="@color/blueDark"
             app:bt_icon="@drawable/ic_magazine"
             app:bt_shape="@drawable/bubble_navigation_bg"
-            app:bt_title="U-Posts"
+            app:bt_title="Miraima"
             app:layout_constraintEnd_toStartOf="@+id/btBook"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btTask"
@@ -128,25 +128,5 @@
             app:layout_constraintTop_toTopOf="@id/bottomNavigationContainer" />
 
     </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
-
-
-    <View
-        android:id="@+id/loadingBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/loading_background"
-        android:translationZ="10dp"
-        android:visibility="gone" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:translationZ="11dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

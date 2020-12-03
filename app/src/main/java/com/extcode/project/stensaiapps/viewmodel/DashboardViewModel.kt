@@ -18,7 +18,7 @@ class DashboardViewModel : ViewModel() {
 
     private val eventResponse = MutableLiveData<EventResponse>()
 
-    fun getEvent(): LiveData<EventResponse> {
+    fun setEvent() {
         viewModelScope.launch(Dispatchers.IO) {
             NetworkProvider.providesHttpAdapter().create(DataSource::class.java).apply {
                 event().enqueue(object : Callback<EventResponse> {
@@ -35,6 +35,9 @@ class DashboardViewModel : ViewModel() {
                 })
             }
         }
+    }
+
+    fun getEvent(): LiveData<EventResponse> {
         return eventResponse
     }
 

@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.extcode.project.stensaiapps.R
-import com.extcode.project.stensaiapps.model.TeacherModel
+import com.extcode.project.stensaiapps.model.api.TeacherData
 import com.extcode.project.stensaiapps.other.OnTeacherNewMessageItemClickCallback
 import kotlinx.android.synthetic.main.user_list_item.view.*
 
 class TeacherNewMessageAdapter : RecyclerView.Adapter<TeacherNewMessageAdapter.ViewHolder>() {
 
-    var arrNewMessage = ArrayList<TeacherModel>()
+    var arrNewMessage = ArrayList<TeacherData>()
         set(value) {
             this.arrNewMessage.clear()
             this.arrNewMessage.addAll(value)
@@ -37,12 +37,12 @@ class TeacherNewMessageAdapter : RecyclerView.Adapter<TeacherNewMessageAdapter.V
     override fun getItemCount() = arrNewMessage.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(teacherModel: TeacherModel) {
+        fun bind(teacherData: TeacherData) {
             with(itemView) {
-                newMessageName.text = teacherModel.username
+                newMessageName.text = teacherData.nama
                 itemView.setOnClickListener {
                     onTeacherNewMessageItemClickCallback?.sendTeacherData(
-                        teacherModel
+                        teacherData
                     )
                 }
             }

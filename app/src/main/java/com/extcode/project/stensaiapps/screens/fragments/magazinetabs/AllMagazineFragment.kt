@@ -27,14 +27,20 @@ class AllMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         return inflater.inflate(R.layout.fragment_all_magazine, container, false)
     }
 
+    private lateinit var magazineViewModel: MagazineViewModel
     private lateinit var magazineAdapter: MagazineAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        swipeMagazine.setColorSchemeColors(context!!.resources.getColor(R.color.colorPrimaryDark))
         swipeMagazine.setOnRefreshListener(this)
 
+        magazineViewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.NewInstanceFactory()
+        )[MagazineViewModel::class.java]
+
+        magazineViewModel.setMagazines()
         getMagazine()
         onLoadingSwipeRefresh()
         configMagazinesRecyclerView()
@@ -42,23 +48,19 @@ class AllMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun getMagazine() {
-        val magazineViewModel = ViewModelProvider(
-            requireActivity(),
-            ViewModelProvider.NewInstanceFactory()
-        )[MagazineViewModel::class.java]
 
         magazineViewModel.getMagazines().observe(viewLifecycleOwner, Observer {
             showShimmer(shimmer_view_container, true)
             showNotFound(notFound, false)
 
-            val message = it.message
-            if (message != null && message.isNotEmpty()) {
+            val data = it.data
+            if (data != null && data.isNotEmpty()) {
 
                 showShimmer(shimmer_view_container, false)
                 showNotFound(notFound, false)
                 swipeMagazine.isRefreshing = false
 
-                magazineAdapter.magazinesList = message as ArrayList<MessageItem>
+                magazineAdapter.magazinesList = data as ArrayList<MessageItem>
                 magazineAdapter.notifyDataSetChanged()
             } else {
                 showShimmer(shimmer_view_container, false)
@@ -83,12 +85,14 @@ class AllMagazineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
+        magazineViewModel.setMagazines()
         getMagazine()
     }
 
     private fun onLoadingSwipeRefresh() {
         swipeMagazine.post {
             Runnable {
+                magazineViewModel.setMagazines()
                 getMagazine()
             }
         }

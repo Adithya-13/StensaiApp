@@ -1,5 +1,6 @@
 package com.extcode.project.stensaiapps.screens.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.MotionEvent
@@ -27,7 +28,11 @@ class DetailMagazineActivity : AppCompatActivity() {
         StrictMode.setVmPolicy(builder.build())
 
         imageZoomHelper = ImageZoomHelper(this)
-        ImageZoomHelper.setViewZoomable(detailMagazinePicture)
+        try {
+            ImageZoomHelper.setViewZoomable(detailMagazinePicture)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         setSupportActionBar(detailTopAppBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -42,7 +47,7 @@ class DetailMagazineActivity : AppCompatActivity() {
                 detailMagazineDescription.text = this.deskripsi
                 detailMagazineAuthor.text = if (this.nama.isNullOrEmpty()) getString(
                     R.string.uploadedBy,
-                    "Admin"
+                    this.name
                 ) else getString(R.string.authorBy, this.nama)
 
                 Glide.with(this@DetailMagazineActivity)
@@ -51,6 +56,16 @@ class DetailMagazineActivity : AppCompatActivity() {
                 Glide.with(this@DetailMagazineActivity)
                     .load("http://stensai-apps.com/img/thumbnail/${this.thumbnail}")
                     .into(placeHolderDetailMagazinePicture)
+
+                fabShareMagazine.setOnClickListener {
+                    val sharingIntent = Intent(Intent.ACTION_SEND)
+                    sharingIntent.type = "text/plain"
+                    val shareBody =
+                        "Halo, Saya membagikan link karya Miraima Stemanika, klik untuk selengkapnya...\n\nhttp://stensai-apps.com/mading/selengkapnya/${this.id} "
+                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Karya Mading")
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+                    startActivity(Intent.createChooser(sharingIntent, "Share via"))
+                }
             }
         }
 
@@ -66,11 +81,16 @@ class DetailMagazineActivity : AppCompatActivity() {
                 Glide.with(this@DetailMagazineActivity)
                     .load("http://stensai-apps.com/img/event/${this.foto}")
                     .into(placeHolderDetailMagazinePicture)
+                fabShareMagazine.setOnClickListener {
+                    val sharingIntent = Intent(Intent.ACTION_SEND)
+                    sharingIntent.type = "text/plain"
+                    val shareBody =
+                        "Halo, Saya membagikan link Event / Informasi Stemanika, klik untuk selengkapnya...\n\nhttp://stensai-apps.com/peran/event/${this.id} "
+                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Karya Mading")
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+                    startActivity(Intent.createChooser(sharingIntent, "Share via"))
+                }
             }
-        }
-
-        fabShareMagazine.setOnClickListener {
-//                storagePermission(it, this!!)
         }
     }
 

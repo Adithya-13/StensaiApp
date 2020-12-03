@@ -13,12 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.extcode.project.stensaiapps.R
 import com.extcode.project.stensaiapps.adapter.DashboardEventAdapter
-import com.extcode.project.stensaiapps.adapter.DashboardSchedulesAdapter
 import com.extcode.project.stensaiapps.adapter.DashboardTaskAdapter
+import com.extcode.project.stensaiapps.adapter.DashboardTaskFinishedAdapter
 import com.extcode.project.stensaiapps.model.api.EventItem
+import com.extcode.project.stensaiapps.model.db.FinishedData
 import com.extcode.project.stensaiapps.model.db.UnfinishedData
-import com.extcode.project.stensaiapps.other.dummySchedulesList
+import com.extcode.project.stensaiapps.other.kIdStatus
 import com.extcode.project.stensaiapps.screens.activity.LatestMessagesActivity
+import com.extcode.project.stensaiapps.screens.activity.SignInActivity
 import com.extcode.project.stensaiapps.viewmodel.DashboardViewModel
 import com.extcode.project.stensaiapps.viewmodel.TaskViewModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -33,8 +35,8 @@ class DashboardFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 
-    private lateinit var dashboardSchedulesAdapter: DashboardSchedulesAdapter
     private lateinit var dashboardTaskAdapter: DashboardTaskAdapter
+    private lateinit var dashboardTaskFinishedAdapter: DashboardTaskFinishedAdapter
     private lateinit var dashboardEventAdapter: DashboardEventAdapter
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var taskViewModel: TaskViewModel
@@ -42,16 +44,25 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val idStatus =
+            context?.getSharedPreferences(SignInActivity::class.simpleName, Context.MODE_PRIVATE)
+                ?.getInt(
+                    kIdStatus, 0
+                )
+
+        taskTitle.text =
+            if (idStatus == 0) context?.getString(R.string.tugas) else context?.getString(R.string.catatan)
+
         dashboardViewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
         taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
 
         getEvent()
-        configSchedulesRecyclerView()
         configTasksRecyclerView()
+        configFinishedTasksRecyclerView()
         configEventRecyclerView()
         configExtendedFAB()
         queryAll()
-
+        queryAllFinished()
     }
 
     private fun configExtendedFAB() {
@@ -84,34 +95,43 @@ class DashboardFragment : Fragment() {
             })
     }
 
+
+    private fun queryAllFinished() {
+        showProgressBar(progressBarFinished, true)
+        showNotFound(notFoundFinished, false)
+
+        taskViewModel.queryAllFinishedTask(context as Context)
+            .observe(viewLifecycleOwner, Observer {
+                if (it.isNullOrEmpty()) {
+                    showProgressBar(progressBarFinished, false)
+                    showNotFound(notFoundFinished, true)
+                    return@Observer
+                }
+
+                showProgressBar(progressBarFinished, false)
+                showNotFound(notFoundFinished, false)
+                dashboardTaskFinishedAdapter.tasksList = it as ArrayList<FinishedData>
+                dashboardTaskFinishedAdapter.notifyDataSetChanged()
+            })
+    }
+
+
     private fun getEvent() {
+        dashboardViewModel.setEvent()
         dashboardViewModel.getEvent().observe(viewLifecycleOwner, Observer {
             showProgressBar(progressBarEvent, true)
             showNotFound(notFoundEvent, false)
-            val message = it.event
-            if (message != null && message.isNotEmpty()) {
+            val data = it.data
+            if (data != null && data.isNotEmpty()) {
                 showProgressBar(progressBarEvent, false)
                 showNotFound(notFoundEvent, false)
-                dashboardEventAdapter.eventList = message as ArrayList<EventItem>
+                dashboardEventAdapter.eventList = data as ArrayList<EventItem>
                 dashboardEventAdapter.notifyDataSetChanged()
             } else {
                 showProgressBar(progressBarEvent, false)
                 showNotFound(notFoundEvent, true)
             }
         })
-    }
-
-    private fun configSchedulesRecyclerView() {
-        dashboardSchedulesAdapter = DashboardSchedulesAdapter()
-        dashboardSchedulesAdapter.schedulesList = dummySchedulesList
-        dashboardSchedulesAdapter.notifyDataSetChanged()
-
-        with(rvSchedule) {
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
-            adapter = dashboardSchedulesAdapter
-        }
     }
 
     private fun configTasksRecyclerView() {
@@ -123,6 +143,18 @@ class DashboardFragment : Fragment() {
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             adapter = dashboardTaskAdapter
+        }
+    }
+
+    private fun configFinishedTasksRecyclerView() {
+        dashboardTaskFinishedAdapter = DashboardTaskFinishedAdapter()
+        dashboardTaskFinishedAdapter.notifyDataSetChanged()
+
+        with(rvTaskFinished) {
+            layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            adapter = dashboardTaskFinishedAdapter
         }
     }
 

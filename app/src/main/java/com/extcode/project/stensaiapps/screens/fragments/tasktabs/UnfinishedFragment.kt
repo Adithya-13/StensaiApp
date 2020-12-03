@@ -34,11 +34,8 @@ class UnfinishedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val taskViewModel =
-            ViewModelProvider(this).get(TaskViewModel::class.java)
-
         configUnfinishedRecyclerView()
-        queryAll(taskViewModel)
+        queryAll()
 
         fabTask.setOnClickListener {
             startActivity(Intent(context as Context, AddTaskActivity::class.java).apply {
@@ -47,9 +44,12 @@ class UnfinishedFragment : Fragment() {
         }
     }
 
-    private fun queryAll(taskViewModel: TaskViewModel) {
+    private fun queryAll() {
         showShimmer(shimmer_view_container, true)
         showNotFound(notFound, false)
+
+        val taskViewModel =
+            ViewModelProvider(this).get(TaskViewModel::class.java)
 
         taskViewModel.queryAllUnfinishedTask(context as Context)
             .observe(viewLifecycleOwner, Observer {

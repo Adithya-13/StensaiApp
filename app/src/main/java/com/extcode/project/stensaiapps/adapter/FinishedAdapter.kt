@@ -49,6 +49,16 @@ class FinishedAdapter : RecyclerView.Adapter<FinishedAdapter.ViewHolder>() {
                     )
                 }
 
+                val backgroundPriority = when (finishedData.priority) {
+                    0 -> R.color.white
+                    1 -> R.drawable.green_priority
+                    2 -> R.drawable.yellow_priority
+                    3 -> R.drawable.red_priority
+                    else -> R.color.white
+                }
+
+                priorityLevel.setImageResource(backgroundPriority)
+
                 if (finishedData.date.equals("null") && finishedData.time.equals("null")) {
                     dlDateTask.visibility = View.GONE
                     dlTimeTask.visibility = View.GONE

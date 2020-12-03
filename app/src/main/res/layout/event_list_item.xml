@@ -31,7 +31,6 @@
             app:riv_corner_radius="10dp" />
 
         <View
-            android:id="@+id/foreground"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:background="@drawable/gradient_magazine_background"
@@ -49,7 +48,7 @@
             android:layout_marginBottom="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Lorem ipsum dolor sit amet"
+            android:text="@string/loremIpsum"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/pictureEvent"
             app:layout_constraintEnd_toEndOf="parent"

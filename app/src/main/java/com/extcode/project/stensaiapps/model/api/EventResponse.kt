@@ -8,13 +8,13 @@ import kotlinx.android.parcel.Parcelize
 data class EventResponse(
 
 	@field:SerializedName("data")
-	val data: String? = null,
+	val data: List<EventItem>?,
 
 	@field:SerializedName("success")
 	val success: Boolean? = null,
 
 	@field:SerializedName("message")
-	val event: List<EventItem>? = null
+	val message: String? = null
 ) : Parcelable
 
 @Parcelize

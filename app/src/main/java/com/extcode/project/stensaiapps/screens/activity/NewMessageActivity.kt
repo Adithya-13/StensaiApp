@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.extcode.project.stensaiapps.R
 import com.extcode.project.stensaiapps.adapter.chat.StudentNewMessageAdapter
 import com.extcode.project.stensaiapps.adapter.chat.TeacherNewMessageAdapter
-import com.extcode.project.stensaiapps.model.StudentModel
-import com.extcode.project.stensaiapps.model.TeacherModel
+import com.extcode.project.stensaiapps.model.api.StudentData
+import com.extcode.project.stensaiapps.model.api.TeacherData
 import com.extcode.project.stensaiapps.other.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,9 +30,10 @@ class NewMessageActivity : AppCompatActivity() {
 
         val idStatus =
             getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).getInt(
-                kIdStatus,
-                0
+                kIdStatus, 0
             )
+
+        newChatTopAppBar.title = if (idStatus == 0) "Guru" else "Siswa"
 
         fetchUser(idStatus)
     }
@@ -52,9 +53,9 @@ class NewMessageActivity : AppCompatActivity() {
                     return
                 }
                 if (status == "teachers") {
-                    val arrUser = ArrayList<TeacherModel>()
+                    val arrUser = ArrayList<TeacherData>()
                     snapshot.children.forEach {
-                        val user = it.getValue(TeacherModel::class.java)
+                        val user = it.getValue(TeacherData::class.java)
                         if (user != null) {
                             arrUser.add(user)
                         }
@@ -62,9 +63,9 @@ class NewMessageActivity : AppCompatActivity() {
                     configNewMessageRecyclerView(idStatus, null, arrUser)
 
                 } else {
-                    val arrUser = ArrayList<StudentModel>()
+                    val arrUser = ArrayList<StudentData>()
                     snapshot.children.forEach {
-                        val user = it.getValue(StudentModel::class.java)
+                        val user = it.getValue(StudentData::class.java)
                         if (user != null) {
                             arrUser.add(user)
                         }
@@ -83,8 +84,8 @@ class NewMessageActivity : AppCompatActivity() {
 
     private fun configNewMessageRecyclerView(
         idStatus: Int,
-        studentArrUser: ArrayList<StudentModel>?,
-        teacherArrUser: ArrayList<TeacherModel>?
+        studentArrUser: ArrayList<StudentData>?,
+        teacherArrUser: ArrayList<TeacherData>?
     ) {
         if (idStatus == 0) {
             teacherNewMessageAdapter = TeacherNewMessageAdapter()
@@ -102,13 +103,13 @@ class NewMessageActivity : AppCompatActivity() {
 
             teacherNewMessageAdapter.setOnTeacherNewMessageItemClickCallback(object :
                 OnTeacherNewMessageItemClickCallback {
-                override fun sendTeacherData(teacherModel: TeacherModel) {
+                override fun sendTeacherData(teacherData: TeacherData) {
                     startActivity(
                         Intent(
                             this@NewMessageActivity,
                             ChatLogActivity::class.java
                         ).apply {
-                            putExtra(kUserData, teacherModel)
+                            putExtra(kUserData, teacherData)
                         })
                     finish()
                 }
@@ -129,13 +130,13 @@ class NewMessageActivity : AppCompatActivity() {
 
             studentNewMessageAdapter.setOnStudentNewMessageItemClickCallback(object :
                 OnStudentNewMessageItemClickCallback {
-                override fun sendStudentData(studentModel: StudentModel) {
+                override fun sendStudentData(studentData: StudentData) {
                     startActivity(
                         Intent(
                             this@NewMessageActivity,
                             ChatLogActivity::class.java
                         ).apply {
-                            putExtra(kUserData, studentModel)
+                            putExtra(kUserData, studentData)
                         })
                     finish()
                 }

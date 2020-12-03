@@ -16,7 +16,7 @@ android {
         versionName "1.0"
 
         buildConfigField "String", 'BASE_URL', '\"http://stensai-apps.com/api/\"'
-        buildConfigField "String", 'TOKEN', '\"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMGQ5MDNlMDVhMTU0NmZiYzVmYzRiNDYzODcyNTM5NDg1ZWMxMDc4NGY5YTBmNjdmYjAxYzIxMzhjNThlZDE0NmI1NjQwYTljZDI5NDQxZDMiLCJpYXQiOjE2MDQ0NjY2MTIsIm5iZiI6MTYwNDQ2NjYxMiwiZXhwIjoxNjM2MDAyNjEyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.dTrzSmMU9avF1TlZ4nRlapE9-lY1YaocCx6sEH7XXjVJ4X3vG8Yhx13knKlE7rfDozrfnx82wLWFCSNnqua8qzup-cZIw31uA7ZvN-tjGuiineium7ViP0Gvs2M1oNT8ApbT80yk_IWG0y7-dMcMiOUdC2YKgj9G4lss0_JoDPoCyjXuJrGlHgE7YBdhTtwnGPJhuz3pI6Qg42J54dDRSvcApgrMzAHm4E-MqnkW4qkEIfjIZMew1iB3yz3CMEUZ802-euwk1q7eiRqWLPfgps7U7lpvwC3wHpyW6NXr2BDw-7SzLa0Ol_xu6rem6bNXLK9_lccc2w_dVF4eYYIEZ0heV9zwpdAMJmZX700WVN9IrqBsBcLCfThjlvcaAq7c_FjDnVUoN3ft44dz6sS02tfo6AQkEmVj-_pBWMyAv-i6ek-6Ovi1A_WvwdOZfkkytaTBsPAan7kPHT9iBztxlVsMBX2bkhtSCkffqBQm_xn950kTCwaOxJmjZ9l1QPpbol_iSiXTCcjeCP-gKBVWMSkjaDWIG-jP4cMAIP8qdR85SN4ipCQ8E4c5BptF-lDA_T0xCGGngRmr3emc7q73HEGfCkZxylfVg_DljY7-PCis06vHkVkeGp81qEfb-7PIBljgk2Xc3zqC9_bk81iRWWeeRhSrygkn9jw3oOKybgs\"'
+            buildConfigField "String", 'TOKEN', '\"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNGFiZjE4ZWU5YTVkN2FkOTU3MDUyNWY1MThmZDkxODIwOWMxNTI4NDA2NWNmMWQwYTQ5NDU2OGMyYmQxM2RjZmJhYmRkNjQ4ZmQ0OTEzMWUiLCJpYXQiOjE2MDY0Njc5NjAsIm5iZiI6MTYwNjQ2Nzk2MCwiZXhwIjoxNjM4MDAzOTYwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.mPzshvfmZi_AUowP1gu7y6tpTkprrE3_CX-zsaor1ru4TLiFwp_Fa-VZQwx88_zm6svmbbmc3p_JLG-m2WQgfLrfo0moRPYOmD0MhLW-PS-RY3JhbIFQqDKrDymVC0DR263q9nCJBMGWPKNuOqxsXOwljxcwI6jhgmtd8nruPSXCFBlDyY5ACgscLY3eWIJBwUYKRBoe2HRnqEdrjFGhtLixuETWHLKv5hyM8BmW6M-LNrr1WHc_NVfOTqHyn-4-IY7GwZQBQtN0MuPCmlrymIFV-N71cHSbwlyLjFzX5YBd8gl06UXdkp7QS1Gc8-9aEbYkGLUYshIWdTQqDog_WQYiNJlqIkzNGpCqfCypeqc1i-NVgQncM3eyglvERmBsA6yHR4HFo_ll1bgwvRmETMyv5ISDIYj9Myt96dr_VoCobgCR86dBtZ2tPGF1TsdAO2sfkSYQ7wvvDvUe4u3raukjAZwL5frE0gXoFXm2bWT6Ff1CsTzj74uqmOw9qv04usytINI96RA0DMJY_zcfuSKsV6obwuvdRWeGWwk4hn0tT3Ts13z3clvZXIDrjwXz7XP0blkRfiQSXl10vg2Z-vEcYKWdP_DWM_MuaqiL0B_atSVhkScQMHNZtaflO5FbFqROMR8nIGUtIWE4Nr8VhAvwAYzPv0AqddR5hTElzFM\"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -92,9 +92,7 @@ dependencies {
     //pinch to zoom
     implementation 'com.github.okaybroda:ImageZoom:1.1.0'
 
-    //Dexter
-    implementation 'com.karumi:dexter:6.2.1'
-
     //SwipeRefresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
 }

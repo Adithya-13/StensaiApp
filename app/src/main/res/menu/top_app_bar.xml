@@ -4,16 +4,16 @@
 
     <item
         android:id="@+id/chat"
-        android:contentDescription="Chat"
+        android:contentDescription="@string/chat"
         android:icon="@drawable/ic_chat"
-        android:title="Chat"
+        android:title="@string/chat"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/setting"
-        android:contentDescription="Pengaturan"
+        android:contentDescription="@string/pengaturan"
         android:icon="@drawable/ic_settings"
-        android:title="Pengaturan"
+        android:title="@string/pengajuan"
         app:showAsAction="ifRoom" />
 
 </menu>

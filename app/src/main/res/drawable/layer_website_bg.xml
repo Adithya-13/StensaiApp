@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/school_background"/>
+    <item>
+        <shape>
+            <gradient
+                android:angle="-90"
+                android:endColor="@color/blackBlue"
+                android:startColor="#BF0E2431" />
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+
+</layer-list>

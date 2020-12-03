@@ -10,11 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.extcode.project.stensaiapps.R
 import com.extcode.project.stensaiapps.adapter.chat.LatestMessageRow
 import com.extcode.project.stensaiapps.model.ChatMessage
-import com.extcode.project.stensaiapps.other.kIdStatus
-import com.extcode.project.stensaiapps.other.kUserData
-import com.extcode.project.stensaiapps.other.showNotFound
-import com.extcode.project.stensaiapps.other.showProgressBar
-import com.google.firebase.auth.FirebaseAuth
+import com.extcode.project.stensaiapps.other.*
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -22,7 +18,8 @@ import kotlinx.android.synthetic.main.activity_latest_messages.*
 
 class LatestMessagesActivity : AppCompatActivity(), View.OnClickListener {
 
-    val adapter = GroupAdapter<GroupieViewHolder>()
+    private val adapter = GroupAdapter<GroupieViewHolder>()
+    private val latestMessageMap = HashMap<String, ChatMessage>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,60 +41,24 @@ class LatestMessagesActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun configLatestMessageRecyclerView() {
-
-        rvLatestMessages.layoutManager = LinearLayoutManager(this)
-        rvLatestMessages.adapter = adapter
-
-        val idStatus = getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).getInt(
-            kIdStatus,
-            0
-        )
-
-        adapter.setOnItemClickListener { item, _ ->
-            val student = (item as LatestMessageRow).studentModel
-            val teacher = item.teacherModel
-
-            try {
-                if ((idStatus == 0 && teacher == null) || (idStatus == 1 && student == null)) {
-                    Toast.makeText(this, "User telah dihapus", Toast.LENGTH_SHORT).show()
-                    return@setOnItemClickListener
-                } else {
-                    startActivity(Intent(this, ChatLogActivity::class.java).apply {
-                        if (idStatus == 0) {
-                            putExtra(kUserData, teacher)
-                        } else {
-                            putExtra(kUserData, student)
-                        }
-                    })
-                }
-            } catch (e: Exception) {
-                Toast.makeText(this, "User telah dihapus", Toast.LENGTH_SHORT).show()
-            }
-
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.fabNewMessage -> startActivity(Intent(this, NewMessageActivity::class.java))
         }
-
-        rvLatestMessages.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) fabNewMessage.hide() else fabNewMessage.show()
-            }
-        })
-
     }
-
-    private val latestMessageMap = HashMap<String, ChatMessage>()
 
     private fun refreshRV() {
         adapter.clear()
         latestMessageMap.values.forEach {
-            adapter.add(LatestMessageRow(it))
+            adapter.add(LatestMessageRow(it, this))
         }
     }
 
     private fun listenForLatestMessages() {
 
-        val fromId = FirebaseAuth.getInstance().uid
-
+        val fromId = getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).getInt(
+            kUid, 0
+        ).toString()
 
         FirebaseDatabase.getInstance().getReference("/latest-messages")
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -108,9 +69,15 @@ class LatestMessagesActivity : AppCompatActivity(), View.OnClickListener {
                         return
                     }
 
+                    val idStatus =
+                        getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).getInt(
+                            kIdStatus,
+                            0
+                        )
+
                     val ref =
-                        FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
-                            .orderByChild("/timeStamp")
+                        FirebaseDatabase.getInstance()
+                            .getReference("/latest-messages/$fromId-$idStatus")
                     ref.addChildEventListener(object : ChildEventListener {
                         override fun onChildAdded(
                             snapshot: DataSnapshot,
@@ -166,10 +133,45 @@ class LatestMessagesActivity : AppCompatActivity(), View.OnClickListener {
             })
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.fabNewMessage -> startActivity(Intent(this, NewMessageActivity::class.java))
+    private fun configLatestMessageRecyclerView() {
+
+        rvLatestMessages.layoutManager = LinearLayoutManager(this)
+        rvLatestMessages.adapter = adapter
+
+        val idStatus = getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).getInt(
+            kIdStatus,
+            0
+        )
+
+        adapter.setOnItemClickListener { item, _ ->
+            val student = (item as LatestMessageRow).studentData
+            val teacher = item.teacherData
+
+            try {
+                if ((idStatus == 0 && teacher == null) || (idStatus == 1 && student == null)) {
+                    Toast.makeText(this, "User telah dihapus", Toast.LENGTH_SHORT).show()
+                    return@setOnItemClickListener
+                } else {
+                    startActivity(Intent(this, ChatLogActivity::class.java).apply {
+                        if (idStatus == 0) {
+                            putExtra(kUserData, teacher)
+                        } else {
+                            putExtra(kUserData, student)
+                        }
+                    })
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this, "User telah dihapus", Toast.LENGTH_SHORT).show()
+            }
+
         }
+
+        rvLatestMessages.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) fabNewMessage.hide() else fabNewMessage.show()
+            }
+        })
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

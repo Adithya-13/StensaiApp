@@ -4,18 +4,22 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import com.extcode.project.stensaiapps.R
 import com.extcode.project.stensaiapps.model.db.FinishedData
 import com.extcode.project.stensaiapps.model.db.UnfinishedData
 import com.extcode.project.stensaiapps.other.*
-import com.extcode.project.stensaiapps.service.AlarmReceiver
 import com.extcode.project.stensaiapps.screens.fragments.datetime.DatePickerFragment
 import com.extcode.project.stensaiapps.screens.fragments.datetime.TimePickerFragment
+import com.extcode.project.stensaiapps.service.AlarmReceiver
 import com.extcode.project.stensaiapps.viewmodel.TaskViewModel
 import kotlinx.android.synthetic.main.deadline_layout_button.*
 import kotlinx.android.synthetic.main.header_add_task.*
@@ -35,6 +39,8 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var getFinishedData: FinishedData
     private lateinit var taskSharedPref: SharedPreferences
     private lateinit var alarmReceiver: AlarmReceiver
+    private var status = 0
+    private var priorityTask = 0
     private var isDoubleBack = false
     private var isEdit = false
     private var isFinished = false
@@ -48,6 +54,14 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
         isEdit = intent.getBooleanExtra(kIsEdit, false)
         isFinished = intent.getBooleanExtra(kIsFinished, false)
         alarmReceiver = AlarmReceiver()
+
+        status = getSharedPreferences(SignInActivity::class.simpleName, MODE_PRIVATE).getInt(
+            kIdStatus, 0
+        )
+
+        titleAddTask.text = if (status == 0) "TAMBAH TUGAS" else "TAMBAH CATATAN"
+
+        configSpinnerPriority()
 
         checkSwitch()
         configIsEdit()
@@ -101,39 +115,43 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun configIsEdit() {
-        if (isEdit) {
+        when {
+            isEdit -> {
+                closeTask.visibility = View.VISIBLE
+                doneTask.visibility = View.VISIBLE
 
-            closeTask.visibility = View.VISIBLE
-            doneTask.visibility = View.VISIBLE
+                getUnfinishedData = intent?.getParcelableExtra(kUnfinishedData)!!
+                insertTitleTask.editText?.setText(getUnfinishedData.title)
+                insertDescriptionTask.editText?.setText(getUnfinishedData.description)
 
-            getUnfinishedData = intent?.getParcelableExtra(kUnfinishedData)!!
-            insertTitleTask.editText?.setText(getUnfinishedData.title)
-            insertDescriptionTask.editText?.setText(getUnfinishedData.description)
+                if (!getUnfinishedData.date.equals("null") && !getUnfinishedData.time.equals("null")) {
+                    dlSwitch.isChecked = true
+                    dlDateTask.text = getUnfinishedData.date
+                    dlTimeTask.text = getUnfinishedData.time
+                } else dlSwitch.isChecked = false
 
-            if (!getUnfinishedData.date.equals("null") && !getUnfinishedData.time.equals("null")) {
-                dlSwitch.isChecked = true
-                dlDateTask.text = getUnfinishedData.date
-                dlTimeTask.text = getUnfinishedData.time
-            } else dlSwitch.isChecked = false
+                taskPriority.setSelection(getUnfinishedData.priority)
+            }
+            isFinished -> {
+                closeTask.visibility = View.VISIBLE
+                doneTask.visibility = View.GONE
 
-        } else if (isFinished) {
+                getFinishedData = intent?.getParcelableExtra(kFinishedData)!!
+                insertTitleTask.editText?.setText(getFinishedData.title)
+                insertDescriptionTask.editText?.setText(getFinishedData.description)
 
-            closeTask.visibility = View.VISIBLE
-            doneTask.visibility = View.GONE
+                if (!getFinishedData.date.equals("null") && !getFinishedData.time.equals("null")) {
+                    dlSwitch.isChecked = true
+                    dlDateTask.text = getFinishedData.date
+                    dlTimeTask.text = getFinishedData.time
+                } else dlSwitch.isChecked = false
 
-            getFinishedData = intent?.getParcelableExtra(kFinishedData)!!
-            insertTitleTask.editText?.setText(getFinishedData.title)
-            insertDescriptionTask.editText?.setText(getFinishedData.description)
-
-            if (!getFinishedData.date.equals("null") && !getFinishedData.time.equals("null")) {
-                dlSwitch.isChecked = true
-                dlDateTask.text = getFinishedData.date
-                dlTimeTask.text = getFinishedData.time
-            } else dlSwitch.isChecked = false
-
-        } else {
-            closeTask.visibility = View.GONE
-            doneTask.visibility = View.GONE
+                taskPriority.setSelection(getFinishedData.priority)
+            }
+            else -> {
+                closeTask.visibility = View.GONE
+                doneTask.visibility = View.GONE
+            }
         }
     }
 
@@ -150,17 +168,19 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
             UnfinishedData(
                 if (isEdit) getUnfinishedData.id else id, title, description,
                 if (switchOn) date else "null",
-                if (switchOn) time else "null"
+                if (switchOn) time else "null",
+                priorityTask
             )
 
-        if (isFinished){
+        if (isFinished) {
             getFinishedData = intent?.getParcelableExtra(kFinishedData)!!
             finishedData = FinishedData(
                 if (isEdit) getFinishedData.id else id,
                 title,
                 description,
                 if (switchOn) date else "null",
-                if (switchOn) time else "null"
+                if (switchOn) time else "null",
+                priorityTask
             )
         }
 
@@ -168,19 +188,19 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
             when {
                 title.isEmpty() -> toastError("Judul tidak boleh kosong!")
                 description.isEmpty() -> toastError("Deskripsi tidak boleh kosong!")
-                date == "Date" -> toastError("Tanggal tidak boleh kosong!")
-                time == "Time" -> toastError("Waktu tidak boleh kosong!")
+                date == "Tanggal" -> toastError("Tanggal tidak boleh kosong!")
+                time == "Waktu" -> toastError("Waktu tidak boleh kosong!")
                 else -> {
                     try {
                         if (isFinished) {
                             insertFinishedTask()
                         } else {
                             taskSharedPref.edit { putInt("id", ++id) }
-                            if (isEdit) alarmReceiver.cancelAlarm(this, unfinishedData.id)
+                            if (isEdit) alarmReceiver.cancelAlarm(this, getUnfinishedData.id)
 
                             alarmReceiver.setAlarm(
                                 this,
-                                unfinishedData.id,
+                                if (isEdit) getUnfinishedData.id else unfinishedData.id,
                                 getString(R.string.titleDeadlineTask),
                                 "${unfinishedData.title} Akan berakhir pada ${unfinishedData.time}, ${unfinishedData.date}",
                                 unfinishedData.date!!,
@@ -191,7 +211,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
                         finish()
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        toastError("Gagal menyimpan Tugas")
+                        toastError("Gagal menyimpan Tugas / Catatan")
                     }
                 }
             }
@@ -213,7 +233,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
                         finish()
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        toastError("Gagal menyimpan Tugas")
+                        toastError("Gagal menyimpan Tugas / Catatam")
                     }
                 }
             }
@@ -252,7 +272,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
                 val time = getUnfinishedData.time
 
                 taskViewModel.deleteUnfinishedTask(this@AddTaskActivity, getUnfinishedData.id)
-                finishedData = FinishedData(id, title, description, date, time)
+                finishedData = FinishedData(id, title, description, date, time, priorityTask)
                 taskViewModel.insertFinishedTask(this@AddTaskActivity, finishedData)
             }
             finish()
@@ -261,13 +281,12 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-
     private fun deleteTask() {
 
         val alertDialogBuilder = AlertDialog.Builder(this, R.style.Dialog)
 
-        alertDialogBuilder.setTitle("Menghapus Tugas")
-        alertDialogBuilder.setMessage("Tugas yang kamu masukan akan hilang!")
+        alertDialogBuilder.setTitle(if (status == 0) "Menghapus Tugas" else "Menghapus Catatan")
+        alertDialogBuilder.setMessage((if (status == 0) "Tugas" else "Catatan ") + " yang kamu masukan akan hilang!")
             .setCancelable(true)
             .setPositiveButton("Ya") { _, _ ->
                 try {
@@ -294,7 +313,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
                     }
                     finish()
                 } catch (e: Exception) {
-                    toastError("Gagal menghapus Tugas")
+                    toastError("Gagal menghapus Tugas / Catatan")
                 }
             }
             .setNegativeButton("Tidak") { dialog, _ -> dialog.cancel() }
@@ -306,6 +325,30 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
+    private fun configSpinnerPriority() {
+        taskPriority.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                priorityTask = position
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
+        setAutoCompleteAdapter(priority, taskPriority)
+    }
+
+    private fun setAutoCompleteAdapter(items: List<String>, spinner: Spinner) {
+        val adapter = ArrayAdapter(this, R.layout.dropdown_list_item, items)
+        spinner.adapter = adapter
+    }
+
     override fun onBackPressed() {
         if (isDoubleBack) {
             super.onBackPressed()
@@ -315,7 +358,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener,
         this.isDoubleBack = true
         Toast.makeText(
             this,
-            "Tugas yang kamu masukan akan hilang, tekan lagi untuk keluar",
+            (if (status == 0) "Tugas" else "Catatan ") + " yang kamu masukan akan hilang, tekan lagi untuk keluar",
             Toast.LENGTH_LONG
         ).show()
 

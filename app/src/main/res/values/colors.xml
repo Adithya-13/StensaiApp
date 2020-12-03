@@ -12,4 +12,8 @@
     <color name="white">#FFFFFF</color>
     <color name="shimmer">#98BDFF</color>
     <color name="red">#F44336</color>
+    <color name="redUrgent">#FF6458</color>
+    <color name="yellowUrgent">#FFF06D</color>
+    <color name="greenUrgent">#BEFF73</color>
+    <color name="blueUrgent">#74EFFF</color>
 </resources>

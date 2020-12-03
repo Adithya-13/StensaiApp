@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="8dp"
     android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
     android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
     android:layout_marginBottom="8dp"
-    app:cardBackgroundColor="@color/textFieldColor">
+    app:cardBackgroundColor="@color/textFieldColor"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,22 +21,22 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:scaleType="centerCrop"
-            app:riv_oval="true"
             android:src="@color/shimmer"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="true" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/adminMagazine"
             android:layout_width="200dp"
             android:layout_height="20dp"
-            app:riv_corner_radius="10dp"
             android:layout_marginStart="8dp"
-            android:src="@color/shimmer"
             android:scaleType="centerCrop"
+            android:src="@color/shimmer"
             app:layout_constraintBottom_toBottomOf="@+id/avatarMagazine"
             app:layout_constraintStart_toEndOf="@id/avatarMagazine"
-            app:layout_constraintTop_toTopOf="@+id/avatarMagazine" />
+            app:layout_constraintTop_toTopOf="@+id/avatarMagazine"
+            app:riv_corner_radius="10dp" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/pictureMagazine"

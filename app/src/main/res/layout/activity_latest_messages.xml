@@ -32,11 +32,11 @@
         android:id="@+id/rvLatestMessages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:listitem="@layout/latest_messages_user_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatAppBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/chatAppBarLayout"
+        tools:listitem="@layout/latest_messages_user_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabNewMessage"
@@ -68,8 +68,8 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:translationZ="2dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

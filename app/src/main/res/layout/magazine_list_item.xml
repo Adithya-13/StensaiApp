@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="8dp"
     android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
     android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
     android:layout_marginBottom="8dp"
-    android:foreground="?attr/selectableItemBackground"
-    android:focusable="true"
     android:clickable="true"
-    app:cardBackgroundColor="@color/white">
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,10 +24,10 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:scaleType="centerCrop"
-            app:riv_oval="true"
             android:src="@drawable/ic_profile_user"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="true" />
 
         <TextView
             android:id="@+id/adminMagazine"
@@ -57,7 +57,6 @@
             app:riv_corner_radius="10dp" />
 
         <View
-            android:id="@+id/foreground"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="16dp"
@@ -76,7 +75,7 @@
             android:layout_marginBottom="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Lorem ipsum dolor sit amet"
+            android:text="@string/loremIpsum"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/pictureMagazine"
             app:layout_constraintEnd_toEndOf="parent"

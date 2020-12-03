@@ -9,6 +9,7 @@ import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.
 import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.UNFINISHED_TABLE_NAME
 import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.UNFINISHED_TIME
 import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.UNFINISHED_TITLE
+import com.extcode.project.stensaiapps.db.DatabaseContract.TaskColumn.Companion.UNFINISHED_URGENCY
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -19,5 +20,6 @@ data class UnfinishedData(
     @ColumnInfo(name = UNFINISHED_TITLE) var title: String?,
     @ColumnInfo(name = UNFINISHED_DESCRIPTION) var description: String?,
     @ColumnInfo(name = UNFINISHED_DATE) var date: String?,
-    @ColumnInfo(name = UNFINISHED_TIME) var time: String?
+    @ColumnInfo(name = UNFINISHED_TIME) var time: String?,
+    @ColumnInfo(name = UNFINISHED_URGENCY) var priority: Int = 0
 ) : Parcelable

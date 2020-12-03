@@ -34,7 +34,7 @@ class FinishedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val taskViewModel =
-            ViewModelProvider(this).get(TaskViewModel::class.java)
+            ViewModelProvider(this)[TaskViewModel::class.java]
 
         configFinishedRecyclerView()
         queryAll(taskViewModel)

@@ -49,6 +49,16 @@ class UnfinishedAdapter : RecyclerView.Adapter<UnfinishedAdapter.ViewHolder>() {
                     )
                 }
 
+                val backgroundPriority = when (unfinishedData.priority) {
+                    0 -> R.color.white
+                    1 -> R.drawable.green_priority
+                    2 -> R.drawable.yellow_priority
+                    3 -> R.drawable.red_priority
+                    else -> R.color.white
+                }
+
+                priorityLevel.setImageResource(backgroundPriority)
+
                 if (unfinishedData.date.equals("null") && unfinishedData.time.equals("null")) {
                     dlDateTask.visibility = View.GONE
                     dlTimeTask.visibility = View.GONE
@@ -58,7 +68,6 @@ class UnfinishedAdapter : RecyclerView.Adapter<UnfinishedAdapter.ViewHolder>() {
                 dlDateTask.visibility = View.VISIBLE
                 dlDateTask.text = unfinishedData.date
                 dlTimeTask.text = unfinishedData.time
-
             }
         }
     }

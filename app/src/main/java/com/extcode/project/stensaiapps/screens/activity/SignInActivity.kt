@@ -11,23 +11,19 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
-import androidx.core.view.get
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.extcode.project.stensaiapps.R
-import com.extcode.project.stensaiapps.model.StudentModel
-import com.extcode.project.stensaiapps.model.TeacherModel
-import com.extcode.project.stensaiapps.other.kIdStatus
-import com.extcode.project.stensaiapps.other.isValidEmail
-import com.extcode.project.stensaiapps.other.statuses
+import com.extcode.project.stensaiapps.model.api.StudentData
+import com.extcode.project.stensaiapps.model.api.TeacherData
+import com.extcode.project.stensaiapps.other.*
+import com.extcode.project.stensaiapps.viewmodel.SignInViewModel
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.field_sign_in.*
 
-class SignInActivity : AppCompatActivity(), View.OnClickListener {
+class SignInActivity : AppCompatActivity() {
 
     private var isStudent = true
 
@@ -42,8 +38,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             statusBarColor = Color.TRANSPARENT
         }
         setAutoCompleteAdapter(statuses, signInStatus)
-        signInStatus[0].callOnClick()
-
 
         (signInStatus.editText as AutoCompleteTextView).onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
@@ -56,19 +50,8 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
 
-        toSignUp.setOnClickListener(this)
-        signInButton.setOnClickListener(this)
+        signInButton.setOnClickListener { signIn() }
     }
-
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.toSignUp -> startActivity(Intent(this, SignUpActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            })
-            R.id.signInButton -> signIn()
-        }
-    }
-
 
     private fun signIn() {
         val email = signInEmail.editText?.text.toString()
@@ -79,65 +62,84 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             password.isEmpty() -> toastEmpty("Password")
             !email.isValidEmail() -> toastCustom("Format Email Salah!")
             else -> {
-                val status = if (isStudent) "students" else "teachers"
                 isLoading(true)
-                performSignIn(email, password, status)
+                performSignIn(email, password)
             }
         }
     }
 
-    private fun performSignIn(email: String, password: String, status: String) {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (!it.isSuccessful) return@addOnCompleteListener
-                queryFirebaseDatabase(status)
-            }.addOnFailureListener {
-                isLoading(false)
-                toastCustom("Sign In Failure!, $it")
-            }
-    }
-
-    private fun queryFirebaseDatabase(status: String) {
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$status")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.children.forEach {
-                    if (status == "students") {
-                        checkAvailableAccount(it, isStudent, "Siswa")
+    private fun performSignIn(email: String, password: String) {
+        ViewModelProvider(this)[SignInViewModel::class.java].apply {
+            if (isStudent) {
+                this.setStudentSignIn(email, password).observe(this@SignInActivity, Observer {
+                    if (it.success) {
+                        saveToDatabase(it.data, null)
+                        getSharedPreferences(
+                            SignInActivity::class.simpleName,
+                            MODE_PRIVATE
+                        ).apply {
+                            edit {
+                                if (it.data != null) {
+                                    putInt(kIdStatus, 0)
+                                    putInt(kUid, it.data.id!!)
+                                    putBoolean(kHasLoggedIn, true)
+                                    putString(kUserName, it.data.nama)
+                                    putLong(kUserNIS, it.data.nis!!.toLong())
+                                    putString(kUserClass, it.data.kelasId)
+                                    putString(kUserEmail, it.data.email)
+                                    apply()
+                                }
+                            }
+                        }
+                        toastCustom("Sign In Successful!")
+                        isLoading(false)
+                        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+                        finish()
                     } else {
-                        checkAvailableAccount(it, isStudent, "Guru")
+                        isLoading(false)
+                        toastCustom(it.message!!)
                     }
-                }
+                })
+            } else {
+                this.setTeacherSignIn(email, password).observe(this@SignInActivity, Observer {
+                    if (it.success) {
+                        saveToDatabase(null, it.data)
+                        getSharedPreferences(
+                            SignInActivity::class.simpleName,
+                            MODE_PRIVATE
+                        ).apply {
+                            edit {
+                                if (it.data != null) {
+                                    putInt(kIdStatus, 1)
+                                    putInt(kUid, it.data.id!!)
+                                    putBoolean(kHasLoggedIn, true)
+                                    putString(kUserName, it.data.nama)
+                                    putLong(kUserNIP, it.data.nip!!.toLong())
+                                    putString(kUserEmail, it.data.email)
+                                    apply()
+                                }
+                            }
+                        }
+                        toastCustom("Sign In Successful!")
+                        isLoading(false)
+                        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+                        finish()
+                    } else {
+                        isLoading(false)
+                        toastCustom(it.message!!)
+                    }
+                })
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                toastCustom(error.toString())
-            }
-        })
+        }
     }
 
-    private fun checkAvailableAccount(it: DataSnapshot, isStudent: Boolean, status: String) {
-        val user = it.getValue(StudentModel::class.java)
-        val teacher = it.getValue(TeacherModel::class.java)
-        if (FirebaseAuth.getInstance().uid == (if (isStudent) user?.uid else teacher?.uid)) {
-            isLoading(false)
-            toastCustom("Sign In Successful!")
-            getSharedPreferences(
-                SignInActivity::class.simpleName,
-                MODE_PRIVATE
-            ).apply {
-                edit {
-                    putInt(kIdStatus, if (isStudent) 0 else 1)
-                    apply()
-                }
-            }
-            startActivity(Intent(this@SignInActivity, MainActivity::class.java))
-            finish()
-        } else {
-            isLoading(false)
-            toastCustom("Akun anda bukan $status")
-            return
-        }
+    private fun saveToDatabase(studentData: StudentData?, teacherData: TeacherData?) {
+        val user = if (isStudent) "students" else "teachers"
+        val uid = if (isStudent) studentData?.id else teacherData?.id
+
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$user/$uid")
+
+        ref.setValue(if (isStudent) studentData else teacherData)
     }
 
     private fun toastCustom(text: String) {
