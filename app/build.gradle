@@ -16,7 +16,7 @@ android {
         versionName "1.0"
 
         buildConfigField "String", 'BASE_URL', '\"http://stensai-apps.com/api/\"'
-            buildConfigField "String", 'TOKEN', '\"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNGFiZjE4ZWU5YTVkN2FkOTU3MDUyNWY1MThmZDkxODIwOWMxNTI4NDA2NWNmMWQwYTQ5NDU2OGMyYmQxM2RjZmJhYmRkNjQ4ZmQ0OTEzMWUiLCJpYXQiOjE2MDY0Njc5NjAsIm5iZiI6MTYwNjQ2Nzk2MCwiZXhwIjoxNjM4MDAzOTYwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.mPzshvfmZi_AUowP1gu7y6tpTkprrE3_CX-zsaor1ru4TLiFwp_Fa-VZQwx88_zm6svmbbmc3p_JLG-m2WQgfLrfo0moRPYOmD0MhLW-PS-RY3JhbIFQqDKrDymVC0DR263q9nCJBMGWPKNuOqxsXOwljxcwI6jhgmtd8nruPSXCFBlDyY5ACgscLY3eWIJBwUYKRBoe2HRnqEdrjFGhtLixuETWHLKv5hyM8BmW6M-LNrr1WHc_NVfOTqHyn-4-IY7GwZQBQtN0MuPCmlrymIFV-N71cHSbwlyLjFzX5YBd8gl06UXdkp7QS1Gc8-9aEbYkGLUYshIWdTQqDog_WQYiNJlqIkzNGpCqfCypeqc1i-NVgQncM3eyglvERmBsA6yHR4HFo_ll1bgwvRmETMyv5ISDIYj9Myt96dr_VoCobgCR86dBtZ2tPGF1TsdAO2sfkSYQ7wvvDvUe4u3raukjAZwL5frE0gXoFXm2bWT6Ff1CsTzj74uqmOw9qv04usytINI96RA0DMJY_zcfuSKsV6obwuvdRWeGWwk4hn0tT3Ts13z3clvZXIDrjwXz7XP0blkRfiQSXl10vg2Z-vEcYKWdP_DWM_MuaqiL0B_atSVhkScQMHNZtaflO5FbFqROMR8nIGUtIWE4Nr8VhAvwAYzPv0AqddR5hTElzFM\"'
+            buildConfigField "String", 'TOKEN', '\"REPLACE YOUR API-KEY HERE\"' //API KEY
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
